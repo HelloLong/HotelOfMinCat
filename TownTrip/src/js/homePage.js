@@ -287,7 +287,7 @@ $(function() {
 			+ '&price=' + $('#price').val()
 			+ '&room=' + $('#room').val()
 			+ '&notes=' + '谢谢'// $('#notes').val();
-			+ "&callback=?"
+			+ "&callback=jsonp_callback"
 			layer.ready(function(){ 
 			  //官网欢迎页
 			  layer.open({
@@ -303,15 +303,17 @@ $(function() {
 					$.ajax({
 							url: bookingUrl,
 							type:'post', //GET
-							async:false,    //或false,是否异步
-							data:{},
-							timeout:5000,    //超时时间
-							dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
-							//dataType:"jsonp",
-							beforeSend:function(xhr){
-								console.log(xhr)
-								console.log('发送前')
-							},
+							// async:false,    //或false,是否异步
+							// data:{},
+							// timeout:5000,    //超时时间
+							//dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+							dataType:"jsonp",
+							jsonp: "jsonpCallback",//一般命名为callback
+							jsonpCallback: 'jsonp_callback',
+							// beforeSend:function(xhr){
+							// 	console.log(xhr)
+							// 	console.log('发送前')
+							// },
 							//success:function(data,textStatus,jqXHR){
 						    success:function(data){
 								console.log(data)
@@ -320,12 +322,18 @@ $(function() {
 								
 								alert("提交订单成功");
 							},
-							error:function(xhr,textStatus){
+							error:function(xhr,textStatus, errorThrown){
+								console.log(errorThrown,xhr, textStatus);
 								alert("提交订单失败");
 								return false;
 							},
-							complete:function(){}
+							//complete:function(){}
 						});
+
+							function jsonp_callback(r){
+      console.log("function");
+      console.log(r);
+    }
 				},
 				//end: function(){ layer.tips('Hi', '#about', {tips: 1}) }
 			});
@@ -336,5 +344,10 @@ $(function() {
 		//mobile
 		console.log(123);
 	});
+
+	function jsonp_callback(r){
+      console.log("function");
+      console.log(r);
+    }
 	
 });
