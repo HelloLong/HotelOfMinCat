@@ -279,6 +279,15 @@ $(function() {
 
 	$('#showBookingBtn').click(function(){
 		var bookingDivHtml = $("#bookingModal").html();
+		var bookingUrl = 'http://106.14.63.173:5000/api/bookhotel?'
+			+ 'name=' + $('#name').val()
+			+ '&phone=' + $('#phone').val()
+			+ '&startdate=' + '20170115' // $('#startdate').val()	
+			+ '&howlong=' + $('#howlong').val()
+			+ '&price=' + $('#price').val()
+			+ '&room=' + $('#room').val()
+			+ '&notes=' + '谢谢'// $('#notes').val();
+			+ "&callback=?"
 			layer.ready(function(){ 
 			  //官网欢迎页
 			  layer.open({
@@ -292,25 +301,19 @@ $(function() {
 				btn: ['提交订单', '残忍离去'],
 				yes: function(){
 					$.ajax({
-							url:'http://182.254.148.171:5000/book_hotel',
-							type:'POST', //GET
-							async:true,    //或false,是否异步
-							data:{
-								name:$('#name').val(),
-								phone:$('#phone').val(),
-								startdate:$('#startdate').val(),
-								howlong:$('#howlong').val(),
-								price:$('#price').val(),
-								room:$('#room').val(),
-								notes:$('#notes').val()
-							},
+							url: bookingUrl,
+							type:'post', //GET
+							async:false,    //或false,是否异步
+							data:{},
 							timeout:5000,    //超时时间
 							dataType:'json',    //返回的数据格式：json/xml/html/script/jsonp/text
+							//dataType:"jsonp",
 							beforeSend:function(xhr){
 								console.log(xhr)
 								console.log('发送前')
 							},
-							success:function(data,textStatus,jqXHR){
+							//success:function(data,textStatus,jqXHR){
+						    success:function(data){
 								console.log(data)
 								console.log(textStatus)
 								console.log(jqXHR)
